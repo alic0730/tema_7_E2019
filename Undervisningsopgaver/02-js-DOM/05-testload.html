@@ -22,7 +22,6 @@
             text-align: center;
             background-color: red;
         }
-
     </style>
 </head>
 
@@ -34,12 +33,15 @@
         let firkantURL = `http://mabe-kea.dk/E19/pics/frog.png`;
         let cirkelURL = `http://mabe-kea.dk/E19/pics/pig.png`;
         let foxURL = `http://mabe-kea.dk/E19/pics/fox.png`;
+        document.addEventListener("DOMContentLoaded", start)
 
-        document.createElement(".boks").innerHTML = `<img src= ${firkantURL} alt="grøn frø">`;
-        document.createElement(".cirkle").innerHTML = `<img src= ${cirkelURL} alt="lyserød gris">`;
-        document.createElement(".cirkle").innerHTML += `<img src= ${foxURL} alt="ræv">`;
+        function start() {
 
+            console.log("start");
+
+            document.querySelector(".boks").innerHTML = `<img src= ${firkantURL} alt="grøn frø">`;
+            document.querySelector(".cirkle").innerHTML = `<img src= ${cirkelURL} alt="lyserød gris">`;
+            document.querySelector(".cirkle").innerHTML += `<img src= ${foxURL} alt="ræv">`;
+        }
     </script>
-</body>
-
-</html>
+</body></html>
