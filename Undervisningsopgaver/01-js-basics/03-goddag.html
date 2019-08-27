@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="da">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Øvelse 3 - Goddag</title>
+    <link rel="stylesheet" href="">
+</head>
+
+<body>
+
+    <input type="text" id=name>
+    <button>Klick</button>
+
+    <script>
+        document.querySelector("button").addEventListener("click", tjek);
+
+        function tjek() {
+            console.log(`Goddag ${document.querySelector("#name").value}`);
+        }
+
+    </script>
+</body>
+
+</html>
