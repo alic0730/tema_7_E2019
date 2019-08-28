@@ -36,10 +36,29 @@
         document.addEventListener("DOMContentLoaded", start)
 
         function start() {
+
             console.log("start");
-            document.querySelector(".boks").innerHTML = `<img src= ${firkantURL} alt="grøn frø">`;
-            document.querySelector(".cirkle").innerHTML = `<img src= ${cirkelURL} alt="lyserød gris">`;
-            document.querySelector(".cirkle").innerHTML += `<img src= ${foxURL} alt="ræv">`;
+            let boks = document.querySelector(".boks");
+            let cirkle = document.querySelector(".cirkle");
+
+            boks.innerHTML = `<img src= ${firkantURL} alt="grøn frø">`;
+            cirkle.innerHTML = `<img src= ${cirkelURL} alt="lyserød gris">`;
+
+            boks.addEventListener("click", flyt);
+            cirkle.addEventListener("click", stop);
+
+            function flyt() {
+                let boksStart = boks.innerHTML;
+
+                boks.innerHTML = cirkle.innerHTML;
+                cirkle.innerHTML = boksStart;
+
+            }
+
+            function stop() {
+                boks.removeEventListener("click", flyt);
+
+            }
         }
     </script>
 </body></html>
