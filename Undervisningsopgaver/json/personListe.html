@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="da">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+</head>
+
+<body>
+    <template>
+        <article class="personliste">
+            <h2>Elever</h2>
+            <img>
+            <url></url>
+        </article>
+    </template>
+
+    <section id="personListe"></section>
+
+    <script>
+        //Variable som henviser til vores array i Json
+        let personArray = [];
+
+        // Loader alt før start
+        document.addEventListener("DOMContentLoaded", start);
+
+        function start() {
+            hentJson();
+        }
+
+        async function hentJson() {
+            const jsonUrl = "https://spreadsheets.google.com/feeds/list/1Xge7slZ9dEOTCn1Yxl3OE4xgvrXOL8Y_iu3WN1yGB1U/od6/public/values?alt=json"
+            const jsonData = await fetch(jsonUrl);
+            // console.log(response);
+            //
+            // dyrArray = await response.json();
+            console.log(personArray);
+            visJson();
+        }
+
+        function visJson() {
+            const temp = document.querySelector("template").content;
+            const dest = document.querySelector("#liste");
+            personArray.feed.entry.forEach(personListe => {
+
+                    person.gsx$navn.$t;
+                    person.gsx$github.$t;
+                    person.gsx$billede.$t;
+                    person.gsx$alder.$t;
+                }
+
+                const klon = temp.cloneNode(true).content;
+
+                klon.querySelector("h2").textContent = personliste.navn;
+
+                liste.appendChild(klon);
+            });
+
+        }
+
+    </script>
+</body>
+
+</html>
