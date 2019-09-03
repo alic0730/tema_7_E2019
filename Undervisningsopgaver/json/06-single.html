@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Person</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        section {
+            width: 80vw;
+            margin: 1vw auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-gap: 2rem;
+            /*  */
+        }
+
+        article img {
+            width: 100%;
+        }
+
+        .valgt {
+            background-color: red;
+        }
+
+
+        #detalje {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: hsla(282, 22%, 31%, 0.53);
+            overflow: scroll;
+        }
+
+        #detalje .luk {
+            position: fixed;
+            top: top;
+            right: 0;
+            font-size: 4rem;
+            cursor: pointer;
+        }
+
+        #detalje .person {
+            width: 60vw;
+            min-height: 50vw;
+            margin: 4rem auto;
+            padding: 4rem;
+            background: white;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+
+<body>
+    <h1>PERSONLISTE</h1>
+
+    <section id="detalje">
+        <article class="person">
+            <button class="luk">🔙</button>
+            <h2></h2>
+            <img src="" alt="">
+            <p>Github:
+                <a class="github" href=""></a>
+            </p>
+        </article>
+    </section>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const github = urlParams.get("github");
+        console.log(github);
+
+        let personer;
+        const jsonUrl = `https://spreadsheets.google.com/feeds/list/1Xge7slZ9dEOTCn1Yxl3OE4xgvrXOL8Y_iu3WN1yGB1U/od6/public/values?alt=json`;
+
+        document.addEventListener("DOMContentLoaded", start);
+
+        function start() {
+
+            document.querySelector(".luk").addEventListener("click", () => {
+                history.back();
+            })
+            loadData();
+        }
+
+        async function loadData() {
+            const response = await fetch(jsonUrl);
+            personer = await response.json();
+            vis();
+        }
+
+        function vis() {
+            personer.feed.entry.forEach(person => {
+                if (person.gsx$github.$t == github) {
+                    document.querySelector("#detalje h2").textContent = person.gsx$navn.$t;
+                    document.querySelector("#detalje img").src = person.gsx$billede.$t;
+                    document.querySelector("#detalje img").alt = `Billede af ${person.gsx$navn.$t}`;
+                    document.querySelector("#detalje .github").textContent = `github.com/${person.gsx$github.$t}`;
+                    document.querySelector("#detalje .github").href = `https://github.com/ ${person.gsx$github.$t}`;
+                }
+            });
+        }
+
+    </script>
+</body>
+
+</html>

@@ -6,6 +6,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+        .dyr {
+            border: 1px solid silver;
+            padding: 20px;
+        }
+
         section {
             width: 80vw;
             margin: 1vw auto;
@@ -22,35 +27,6 @@
         .valgt {
             background-color: red;
         }
-
-
-        #detalje {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: hsla(282, 22%, 31%, 0.53);
-            overflow: scroll;
-        }
-
-        #detalje .luk {
-            position: fixed;
-            top: top;
-            right: 0;
-            font-size: 4rem;
-            cursor: pointer;
-        }
-
-        #detalje .person {
-            width: 60vw;
-            min-height: 50vw;
-            margin: 4rem auto;
-            padding: 4rem;
-            background: white;
-            cursor: pointer;
-        }
-
     </style>
 </head>
 
@@ -65,17 +41,6 @@
     </nav>
 
     <section id="liste"></section>
-
-    <section id="detalje">
-        <article class="person">
-            <button class="luk">⤫</button>
-            <h2></h2>
-            <img src="" alt="">
-            <p>Github:
-                <a class="github" href=""></a>
-            </p>
-        </article>
-    </section>
 
     <template>
         <article class="person">
@@ -93,16 +58,13 @@
         document.addEventListener("DOMContentLoaded", start);
         let personGallery = [];
         let personer;
-        const jsonUrl = "https://spreadsheets.google.com/feeds/list/1Xge7slZ9dEOTCn1Yxl3OE4xgvrXOL8Y_iu3WN1yGB1U/od6/public/values?alt=json";
+        const jsonUrl = `https://spreadsheets.google.com/feeds/list/1Xge7slZ9dEOTCn1Yxl3OE4xgvrXOL8Y_iu3WN1yGB1U/od6/public/values?alt=json`;
         let filter = "alle";
 
         //Første function der loades efter DOM er loadet
         function start() {
             const filterKnapper = document.querySelectorAll("nav button");
             filterKnapper.forEach(knap => knap.addEventListener("click", filtrerPersoner));
-            //Skjul detalje (pop-up)
-            document.querySelector("#detalje").style.display = "none";
-            skjulDetalje();
             hentJson();
 
         }
@@ -153,31 +115,11 @@
 
                     dest.appendChild(klon);
                     dest.lastElementChild.addEventListener("click", () => {
-                        visDetalje(person);
+                        location.href = `06-single.html?github=${person.gsx$github.$t}`;
                     })
+
                 }
-            });
-        }
-
-        function visDetalje(person) {
-            console.log(person);
-
-            document.querySelector("#detalje").style.display = "block";
-            document.querySelector("#detalje .luk").addEventListener("click", skjulDetalje);
-
-            document.querySelector("#detalje h2").textContent = person.gsx$navn.$t;
-            document.querySelector("#detalje img").src = person.gsx$billede.$t;
-            document.querySelector("#detalje img").alt = "Billede af " + person.gsx$navn.$t;
-            document.querySelector("#detalje .github").textContent += person.gsx$github.$t;
-            document.querySelector("#detalje a").href = "https://github.com/" + person.gsx$github.$t;
-        }
-
-        function skjulDetalje() {
-            document.querySelector("#detalje").style.display = "none";
-
-        }
-
+            })
+        };
     </script>
-</body>
-
-</html>
+</body></html>
