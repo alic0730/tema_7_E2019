@@ -36,32 +36,6 @@
             background-color: rgba(250, 250, 210, 0.44);
         }
 
-        #detalje {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: rgba(169, 169, 169, 0.33);
-            overflow: scroll;
-
-        }
-
-        #detalje .luk {
-            position: fixed;
-            top: 0;
-            right: 0;
-            font-size: 4rem;
-            cursor: pointer;
-        }
-
-        #detalje .ret {
-            width: 60vw;
-            min-height: 50vh;
-            margin: 4rem auto;
-            padding: 4rem;
-            background: white;
-        }
 
         h1 {
             font-size: 6rem;
@@ -81,6 +55,7 @@
         p {
             font-family: 'Titillium Web', sans-serif;
         }
+
     </style>
 </head>
 
@@ -101,23 +76,10 @@
     <section id="menu"></section>
 
 
-    <section id="detalje">
-        <article class="ret">
-            <button class="luk">×
-            </button>
-            <h2></h2>
-            <img src="" alt="">
-            <p class="pris">Pris:</p>
-            <p class="lang">Beskrivelse:</p>
-            <p class="oprindelse">Oprindelse:</p>
-        </article>
-    </section>
-
-
 
     <template>
         <article class="ret">
-            <h2 class="navn"> </h2>
+            <h2 class="navn"></h2>
             <img class="billede" alt="">
             <p class="lang">Beskrivelse: </p>
             <p class="pris">Pris: </p>
@@ -127,6 +89,11 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", start);
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const unik = urlParams.get("id");
+        const jsonUrl =
+            "https://spreadsheets.google.com/feeds/list/17Dd7DvkPaFamNUdUKlrFgnH6POvBJXac7qyiS6zNRw0/od6/public/values?alt=json&fbclid=IwAR21EGbf3OgAgUlKlZ8RRy8Lg5tvr5pcrWEyu5gxcxE0MfKSUmKWvIdrrzg";
         let menu = [];
         let filter = "alt";
 
@@ -137,7 +104,6 @@
             const filterKnapper = document.querySelectorAll("nav button");
             filterKnapper.forEach(knap => knap.addEventListener("click", filtrer))
             hentJson();
-            skjulDetalje();
 
         }
 
@@ -157,8 +123,7 @@
 
         // funktion der henter data fra Google sheet (via URL)
         async function hentJson() {
-            const jsonUrl =
-                "https://spreadsheets.google.com/feeds/list/17Dd7DvkPaFamNUdUKlrFgnH6POvBJXac7qyiS6zNRw0/od6/public/values?alt=json&fbclid=IwAR21EGbf3OgAgUlKlZ8RRy8Lg5tvr5pcrWEyu5gxcxE0MfKSUmKWvIdrrzg";
+
             const jsonData = await fetch(jsonUrl);
             console.log(jsonData);
 
@@ -167,8 +132,6 @@
 
             vis();
         }
-
-
 
         //funktion der viser personer i liste view
         function vis() {
@@ -186,7 +149,8 @@
                     // console.log(klon);
 
                     klon.querySelector("h2").textContent = ret.gsx$navn.$t;
-                    klon.querySelector("img").src = "/img/small/" + ret.gsx$billede.$t + "-sm.jpg";
+                    klon.querySelector("h2").setAttribute("id", "ret");
+                    klon.querySelector("img").src = "img/small/" + ret.gsx$billede.$t + "-sm.jpg";
                     klon.querySelector("img").alt = "billedeaf" + ret.gsx$billede.$t;
                     //                    klon.querySelector("kategori").textContent += ret.gsx$kategori.$t;
                     klon.querySelector(".pris").textContent += ret.gsx$pris.$t;
@@ -194,13 +158,9 @@
                     klon.querySelector(".lang").textContent += ret.gsx$lang.$t;
                     klon.querySelector(".oprindelse").textContent += ret.gsx$oprindelse.$t;
 
-
-
-
-
                     dest.appendChild(klon);
                     dest.lastElementChild.addEventListener("click", () => {
-                        visDetalje(ret);
+                        location.href = `nytvindue.html?id=${ret.gsx$id.$t}`;
                     })
                 }
 
@@ -208,28 +168,7 @@
 
         }
 
-
-
-
-        //                funktion der viser person i detalje view
-
-        function visDetalje(ret) {
-            console.log(ret);
-            document.querySelector("#detalje").style.display = "block";
-
-            document.querySelector("#detalje .luk").addEventListener("click", skjulDetalje);
-
-            document.querySelector("#detalje h2").textContent = ret.gsx$navn.$t;
-            document.querySelector("#detalje .pris").textContent += ret.gsx$pris.$t;
-            document.querySelector("#detalje .lang").textContent += ret.gsx$lang.$t;
-            document.querySelector("#detalje .oprindelse").textContent += ret.gsx$oprindelse.$t;
-
-            document.querySelector("#detalje img").src = "/img/large/" + ret.gsx$billede.$t + ".jpg";
-            document.querySelector("#detalje img").alt = "billedeaf" + ret.gsx$billede.$t;
-        }
-
-        function skjulDetalje() {
-            document.querySelector("#detalje").style.display = "none";
-        }
     </script>
-</body></html>
+</body>
+
+</html>
